@@ -1,9 +1,15 @@
 <template>
   <div class="content">
+    <Navbar/>
     <router-view/>
   </div>
 
 </template>
+
+<script setup>
+
+import Navbar from "@/components/Navbar";
+</script>
 
 <style>
 .content{

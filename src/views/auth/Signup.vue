@@ -11,8 +11,12 @@
 </template>
 
 <script setup>
+onMounted(()=>{
+  error.value = null
+})
 
-import {ref} from "vue";
+
+import {onMounted, ref} from "vue";
 import useSignup from "@/composables/useSignup";
 
 const name = "Signup"
@@ -29,6 +33,8 @@ const handleSubmit = async ()=>{
     console.log("User signed up!")
   }
 }
+
+
 </script>
 
 <style scoped>
