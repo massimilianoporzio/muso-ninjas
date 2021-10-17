@@ -4,6 +4,7 @@ import {db} from "@/firebase/config";
 import {collection,query,onSnapshot} from "firebase/firestore";
 import {orderBy} from "firebase/firestore";
 
+
 const getCollection = (collectionName)=>{
     const documents = ref(null)
     const error = ref(null)
@@ -11,7 +12,7 @@ const getCollection = (collectionName)=>{
     let q = query(collection(db,collectionName),orderBy("createdAt","asc"))
 
     const unsub = onSnapshot(q, (querySnapshot) => {
-        console.log('SNAPSHOT')
+
         let results = [];
         querySnapshot.forEach((doc) => {
             doc.data().createdAt && results.push({...doc.data(), id:doc.id}); // quando c'è sul server (non local snapshot)
