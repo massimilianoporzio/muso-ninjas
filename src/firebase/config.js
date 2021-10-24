@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth} from "firebase/auth";
 import {serverTimestamp } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 const firebaseConfig = {
     apiKey: "AIzaSyAt4hZo6_jVQZe2kP3_9WJ8m0LKAMiB4oE",
     authDomain: "muso-ninjas-abefe.firebaseapp.com",
@@ -15,5 +16,6 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig)
 
 const projectAuth = getAuth(firebaseApp);
+const projectStore = getStorage(firebaseApp)
 const db = getFirestore()
-export {db,projectAuth,serverTimestamp}
+export {db,projectAuth,serverTimestamp,projectStore}

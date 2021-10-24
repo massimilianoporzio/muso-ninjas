@@ -23,5 +23,4 @@ const useCollection = (collectionName) => {
     return {error,addDocument}
 
 }
-
 export default useCollection
