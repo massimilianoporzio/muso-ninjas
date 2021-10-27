@@ -13,18 +13,21 @@
 
 import {ref} from "vue";
 import useLogin from "@/composables/useLogin";
+import {useRouter} from "vue-router";
 
 const name = "Login"
 const email = ref('')
 const password = ref('')
 
 const {error,login,isPending} = useLogin()
+const router = useRouter()
 
 const handleSubmit = async ()=>{
   const res = await login(email.value,password.value)
   if (!error.value){
     //NESSUN ERRORE
     console.log("LOGGED IN")
+    await router.push({name: 'Home'})
   }
 }
 
