@@ -15,7 +15,12 @@
 
       <!--    song list-->
       <div class="song-list">
-        <p>song list here</p>
+        <div v-if="!playlist.songs.length">No songs have benn added yet</div>
+        <div v-for="song in playlist.songs" :key="song.id" class="single-song">
+          <SongDetails :song="song"/>
+
+        </div>
+        <AddSong v-if="ownership" :playlist="playlist"/>
       </div>
   </div>
 </template>
@@ -27,6 +32,8 @@ import {computed} from "vue";
 import useDocument from "@/composables/useDocument";
 import useStorage from "@/composables/useStorage";
 import {useRouter} from "vue-router";
+import AddSong from "@/components/AddSong";
+import SongDetails from "@/components/SongDetails";
 
 
 
@@ -35,11 +42,11 @@ const props = defineProps(['id']) // arriva dal router come prop
 const {error, document: playlist} = getDocument('playlists',props.id)
 const {deleteDocument} = useDocument('playlists',props.id)
 const {user} = getUser()
-const {deleteImage} = useStorage()
+const {deleteFile} = useStorage()
 const router = useRouter()
 
 const handleClick =  async () => {
- await deleteImage(playlist.value.filePath)
+ await deleteFile(playlist.value.filePath)
  await deleteDocument()
  router.push({name: 'Home'})
 }

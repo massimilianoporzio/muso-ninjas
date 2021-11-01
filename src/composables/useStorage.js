@@ -13,6 +13,18 @@ const useStorage = ()=>{
     const url = ref(null)
     const filePath = ref(null)
 
+    const uploadSong = async (file)=>{
+        filePath.value = `songs/${user.value.uid}/${file.name}`
+        const storageRef = firestoreRef(projectStore, filePath.value)
+        try {
+            const res = await uploadBytes(storageRef, file)
+            url.value = await getDownloadURL(res.ref)
+        } catch (err) {
+            console.log(err.message)
+            error.value = err
+        }
+    }
+
     const uploadImage = async (file)=> {
         filePath.value = `covers/${user.value.uid}/${file.name}`
         const storageRef = firestoreRef(projectStore, filePath.value)
@@ -25,7 +37,7 @@ const useStorage = ()=>{
         }
     }
 
-    const deleteImage = async (path)=>{
+    const deleteFile = async (path)=>{
         const storageRef = firestoreRef(projectStore,path)
         try{
             const res = await deleteObject(storageRef)
@@ -36,7 +48,7 @@ const useStorage = ()=>{
         }
     }
 
-    return{url,filePath,error,uploadImage,deleteImage}
+    return{url,filePath,error,uploadImage,deleteImage: deleteFile,uploadSong}
 }
 
 
