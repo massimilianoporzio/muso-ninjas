@@ -18,6 +18,7 @@ import useStorage from "@/composables/useStorage";
 import useCollection from "@/composables/useCollection";
 import getUser from "@/composables/getUser";
 import {serverTimestamp } from "firebase/firestore";
+import {useRouter} from "vue-router";
 const {filePath, url, uploadImage} = useStorage()
 const {error, addDocument} = useCollection('playlists')
 const {user} = getUser()
@@ -29,7 +30,7 @@ const fileError = ref(null)
 
 //local is pending for multiple operations
 const isPending = ref(false)
-
+const router = useRouter()
 
 //allowed types
 const types = ['image/png','image/jpeg']
@@ -54,7 +55,7 @@ const handleSubmit =async () => {
   if(file.value){
     isPending.value = true
    await  uploadImage(file.value)
-   await addDocument({
+   const docRef = await addDocument({
      title: title.value,
      description: description.value,
      userId: user.value.uid,
@@ -65,8 +66,10 @@ const handleSubmit =async () => {
      createdAt: serverTimestamp()
    })
     isPending.value = false
-    if(!error){
-      console.log("Playlist added")
+    console.log("ERROR???",error)
+    if(!error.value){
+      console.log("Playlist added",docRef)
+      router.push({name: 'PlaylistDetails',params: {id: docRef.id }})
     }
 
   }

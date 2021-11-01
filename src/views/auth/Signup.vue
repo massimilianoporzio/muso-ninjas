@@ -11,6 +11,8 @@
 </template>
 
 <script setup>
+import {useRouter} from "vue-router";
+
 onMounted(()=>{
   error.value = null
 })
@@ -23,7 +25,7 @@ const name = "Signup"
 const displayName = ref('')
 const email = ref('')
 const password = ref('')
-
+const router = useRouter()
 const {error,signup,isPending} = useSignup()
 
 const handleSubmit = async ()=>{
@@ -31,6 +33,7 @@ const handleSubmit = async ()=>{
   if(!error.value){
     //TUTTO OK
     console.log("User signed up!")
+    router.push({name:'Home'})
   }
 }
 

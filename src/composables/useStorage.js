@@ -1,6 +1,6 @@
 import {projectStore} from "@/firebase/config";
+import {ref as firestoreRef, deleteObject } from "firebase/storage";
 import {ref} from "vue";
-import {ref as storeageref} from "firebase/storage"
 import {uploadBytes} from "firebase/storage";
 import getUser from "@/composables/getUser";
 import {getDownloadURL} from "firebase/storage";
@@ -15,7 +15,7 @@ const useStorage = ()=>{
 
     const uploadImage = async (file)=> {
         filePath.value = `covers/${user.value.uid}/${file.name}`
-        const storageRef = storeageref(projectStore, filePath.value)
+        const storageRef = firestoreRef(projectStore, filePath.value)
         try {
             const res = await uploadBytes(storageRef, file)
             url.value = await getDownloadURL(res.ref)
@@ -25,7 +25,18 @@ const useStorage = ()=>{
         }
     }
 
-    return{url,filePath,error,uploadImage}
+    const deleteImage = async (path)=>{
+        const storageRef = firestoreRef(projectStore,path)
+        try{
+            const res = await deleteObject(storageRef)
+
+        }catch(err){
+            console.log(err.message)
+            error.value = "Could not delete the image"
+        }
+    }
+
+    return{url,filePath,error,uploadImage,deleteImage}
 }
 
 

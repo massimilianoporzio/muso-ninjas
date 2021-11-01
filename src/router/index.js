@@ -6,6 +6,7 @@ import CreatePlaylist from "@/views/playlists/CreatePlaylist"
 
 // route guard
 import {projectAuth} from "@/firebase/config";
+import PlayListDetails from "@/views/playlists/PlayListDetails";
 
 const requireAuth = (to,from,next)=>{
   let user = projectAuth.currentUser
@@ -46,6 +47,13 @@ const routes = [
     name: 'CreatePlaylist',
     component: CreatePlaylist,
     beforeEnter: requireAuth
+  },
+  {
+    path: '/playlists/:id',
+    name: 'PlaylistDetails',
+    component: PlayListDetails,
+    beforeEnter: requireAuth,
+    props: true
   }
 
 ]

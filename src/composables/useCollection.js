@@ -11,16 +11,18 @@ const useCollection = (collectionName) => {
         isPending.value = true
         try {
             const docRef =  await addDoc(collection(db,collectionName),doc)
+            console.log("Document written with ID: ", docRef.id);
+            isPending.value=false
+            return docRef
 
-           console.log("Document written with ID: ", docRef.id);
         }catch (err){
             console.log(err.message)
             error.value = 'cannot send the message: '+err.message
             isPending.value = false
         }
     }
-    isPending.value=false
-    return {error,addDocument}
+
+    return {error,addDocument,isPending}
 
 }
 export default useCollection
