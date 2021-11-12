@@ -6,9 +6,10 @@ service firebase.storage {
       allow delete: if request.auth.uid == userId;
     }
     match /songs/{userId}/{document=**} {
-    allow read, create: if request.auth!=null;
-    allow delete: if request.auth.uid == userId;
-  }
+      allow create: if request.auth!=null;
+      allow read: if true; // su riga singola non richiede token e funziona su diverse playlists
+      allow delete: if request.auth.uid == userId;
+    }
 
   }
 }

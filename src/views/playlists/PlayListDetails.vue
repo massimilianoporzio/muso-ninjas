@@ -17,7 +17,7 @@
       <div class="song-list">
         <div v-if="!playlist.songs.length">No songs have benn added yet</div>
         <div v-for="song in playlist.songs" :key="song.id" class="single-song">
-          <SongDetails :song="song"/>
+            <SongDetails :song="song" :ownership="ownership" :playlist="playlist"/>
 
         </div>
         <AddSong v-if="ownership" :playlist="playlist"/>
@@ -40,10 +40,13 @@ import SongDetails from "@/components/SongDetails";
 const name = "PlayListDetails"
 const props = defineProps(['id']) // arriva dal router come prop
 const {error, document: playlist} = getDocument('playlists',props.id)
-const {deleteDocument} = useDocument('playlists',props.id)
+const {deleteDocument,updateDocument} = useDocument('playlists',props.id)
+
 const {user} = getUser()
 const {deleteFile} = useStorage()
 const router = useRouter()
+
+
 
 const handleClick =  async () => {
  await deleteFile(playlist.value.filePath)
@@ -97,4 +100,5 @@ const ownership = computed(()=>{
 .description {
   text-align: left;
 }
+
 </style>

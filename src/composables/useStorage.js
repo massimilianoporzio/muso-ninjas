@@ -44,11 +44,11 @@ const useStorage = ()=>{
 
         }catch(err){
             console.log(err.message)
-            error.value = "Could not delete the image"
+            error.value = "Could not delete the file"
         }
     }
 
-    return{url,filePath,error,uploadImage,deleteImage: deleteFile,uploadSong}
+    return{url,filePath,error,uploadImage, deleteFile, uploadSong}
 }
 
 
