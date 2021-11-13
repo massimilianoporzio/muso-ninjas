@@ -2,14 +2,24 @@ import {ref, watchEffect} from "vue";
 import {projectAuth} from "@/firebase/config";
 import {db} from "@/firebase/config";
 import {collection,query,onSnapshot} from "firebase/firestore";
-import {orderBy} from "firebase/firestore";
+import {orderBy,where} from "firebase/firestore";
 
 
-const getCollection = (collectionName)=>{
+const getCollection = (collectionName,conditions)=>{
     const documents = ref(null)
     const error = ref(null)
+    let collectionRef = collection(db,collectionName)
+    let q
+    if(conditions){
 
-    let q = query(collection(db,collectionName),orderBy("createdAt","asc"))
+        q = query(collectionRef,where(... conditions),orderBy("createdAt","asc"))
+    }
+    else {
+        q = query(collectionRef,orderBy("createdAt","asc"))
+    }
+
+
+
 
     const unsub = onSnapshot(q, (querySnapshot) => {
 
